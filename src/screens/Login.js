@@ -83,7 +83,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   isLogin: state.auth.isLogin,
-  user: state.auth.user
+  user: state.auth.user,
+  failed: state.auth.failed,
+  errorMessage: state.auth.errorMessage
 });
 
 export default connect(mapStateToProps)(Login);
