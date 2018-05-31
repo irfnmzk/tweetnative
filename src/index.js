@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { createStackNavigator } from "react-navigation";
 import { View, Text } from "react-native";
+import { Provider } from "react-redux";
+import store from "./store";
 import Login from "./screens/Login";
 import Home from "./screens/Home";
 
@@ -17,7 +19,11 @@ const Root = createStackNavigator(
 
 class App extends Component {
   render() {
-    return <Root />;
+    return (
+      <Provider store={store}>
+        <Root />
+      </Provider>
+    );
   }
 }
 

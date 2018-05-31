@@ -15,6 +15,8 @@ import {
 } from "native-base";
 import { StyleSheet, Alert } from "react-native";
 import axios from "axios";
+import { connect } from "react-redux";
+import { login } from "../actions/auth";
 
 class Login extends Component {
   state = {
@@ -22,25 +24,15 @@ class Login extends Component {
     password: ""
   };
 
+  componentDidUpdate() {
+    console.log(this.props.isLogin);
+    if (this.props.isLogin) {
+      this.props.navigation.navigate("Home");
+    }
+  }
+
   handleSubmit = () => {
-    const { email, password } = this.state;
-    axios
-      .post(
-        "https://us-central1-react-native-project-cfd3e.cloudfunctions.net/auth",
-        {
-          email: this.state.email,
-          password: this.state.password
-        }
-      )
-      .then(res => {
-        data = res.data;
-        if (data.status === "success") {
-          this.props.navigation.navigate("Home");
-        } else {
-          Alert.alert("Failed");
-        }
-      })
-      .catch(e => console.log(e));
+    this.props.dispatch(login(this.state));
   };
 
   render() {
@@ -57,7 +49,7 @@ class Login extends Component {
               <Label>Email</Label>
               <Input
                 onChangeText={email => this.setState({ email })}
-                value={this.state.email}
+                value={this.props.email}
               />
             </Item>
             <Item floatingLabel>
@@ -89,4 +81,9 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Login;
+const mapStateToProps = state => ({
+  isLogin: state.auth.isLogin,
+  user: state.auth.user
+});
+
+export default connect(mapStateToProps)(Login);
