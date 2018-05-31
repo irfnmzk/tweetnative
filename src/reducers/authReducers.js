@@ -13,7 +13,8 @@ export default (state = initialState, action) => {
     case LOGIN:
       return {
         ...state,
-        LoggingIn: true
+        failed: false,
+        errorMessage: ""
       };
     case LOGIN_SUCCESS:
       return {

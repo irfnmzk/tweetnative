@@ -16,7 +16,7 @@ import {
 import { StyleSheet, Alert } from "react-native";
 import axios from "axios";
 import { connect } from "react-redux";
-import { login } from "../actions/auth";
+import { login, LOGIN } from "../actions/auth";
 
 class Login extends Component {
   state = {
@@ -25,9 +25,9 @@ class Login extends Component {
   };
 
   componentDidUpdate() {
-    console.log(this.props.isLogin);
-    if (this.props.isLogin) {
-      this.props.navigation.navigate("Home");
+    if (this.props.failed) {
+      Alert.alert("Login Failed", "Make sure your credentials is correct");
+      this.props.dispatch({ type: LOGIN });
     }
   }
 

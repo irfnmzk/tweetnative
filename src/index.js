@@ -1,30 +1,29 @@
 import React, { Component } from "react";
 import { createStackNavigator } from "react-navigation";
 import { View, Text } from "react-native";
-import { Provider } from "react-redux";
-import store from "./store";
+import { connect } from "react-redux";
 import Login from "./screens/Login";
 import Home from "./screens/Home";
 
 const Root = createStackNavigator(
   {
-    Login: Login,
-    Home: Home
+    Login: Login
   },
   {
-    initialRouteNames: "Login",
+    initialRouteName: "Login",
     headerMode: "none"
   }
 );
 
 class App extends Component {
   render() {
-    return (
-      <Provider store={store}>
-        <Root />
-      </Provider>
-    );
+    if (this.props.auth.isLogin) {
+      return <Home />;
+    }
+    return <Root />;
   }
 }
 
-export default App;
+export default connect(state => ({
+  auth: state.auth
+}))(App);
