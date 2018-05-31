@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import { createStackNavigator } from "react-navigation";
-import { View, Text } from "react-native";
+import { Icon } from "native-base";
 import { connect } from "react-redux";
 import Login from "./screens/Login";
 import Home from "./screens/Home";
 
 const Root = createStackNavigator(
   {
-    Login: Login
+    Home: Home
   },
   {
-    initialRouteName: "Login",
     headerMode: "none"
   }
 );
@@ -18,9 +17,9 @@ const Root = createStackNavigator(
 class App extends Component {
   render() {
     if (this.props.auth.isLogin) {
-      return <Home />;
+      return <Root />;
     }
-    return <Root />;
+    return <Login />;
   }
 }
 

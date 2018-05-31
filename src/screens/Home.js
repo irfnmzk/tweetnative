@@ -9,7 +9,11 @@ import {
   Thumbnail,
   List,
   ListItem,
-  View
+  View,
+  Footer,
+  FooterTab,
+  Button,
+  Icon
 } from "native-base";
 import { StyleSheet } from "react-native";
 import { FlatList } from "react-native";
@@ -17,7 +21,7 @@ import { connect } from "react-redux";
 import { fetchTweets } from "../actions/tweets";
 
 class Home extends Component {
-  componentDidMount() {
+  componentWillMount() {
     this.props.dispatch(fetchTweets());
   }
 
@@ -62,6 +66,18 @@ class Home extends Component {
           </Body>
         </Header>
         <Content>{renderTweet}</Content>
+        <Footer>
+          <FooterTab>
+            <Button vertical>
+              <Icon name="home" />
+              <Text>Home</Text>
+            </Button>
+            <Button onPress={() => alert("haii")} vertical>
+              <Icon name="person" />
+              <Text>Profile</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
       </Container>
     );
   }
