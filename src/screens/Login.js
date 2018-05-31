@@ -13,9 +13,36 @@ import {
   Title,
   Label
 } from "native-base";
-import { StyleSheet, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, Alert } from "react-native";
+import axios from "axios";
 
 class Login extends Component {
+  state = {
+    email: "",
+    password: ""
+  };
+
+  handleSubmit = () => {
+    const { email, password } = this.state;
+    axios
+      .post(
+        "https://us-central1-react-native-project-cfd3e.cloudfunctions.net/auth",
+        {
+          email: this.state.email,
+          password: this.state.password
+        }
+      )
+      .then(res => {
+        data = res.data;
+        if (data.status === "success") {
+          this.props.navigation.navigate("Home");
+        } else {
+          Alert.alert("Failed");
+        }
+      })
+      .catch(e => console.log(e));
+  };
+
   render() {
     return (
       <Container>
@@ -28,13 +55,20 @@ class Login extends Component {
           <Form style={styles.FormContainer}>
             <Item floatingLabel>
               <Label>Email</Label>
-              <Input />
+              <Input
+                onChangeText={email => this.setState({ email })}
+                value={this.state.email}
+              />
             </Item>
             <Item floatingLabel>
               <Label>Password</Label>
-              <Input secureTextEntry />
+              <Input
+                onChangeText={password => this.setState({ password })}
+                value={this.state.password}
+                secureTextEntry
+              />
             </Item>
-            <Button style={styles.Button} block>
+            <Button style={styles.Button} onPress={this.handleSubmit} block>
               <Text>Submit</Text>
             </Button>
           </Form>
